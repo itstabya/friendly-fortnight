@@ -2,54 +2,37 @@ from copy import deepcopy
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
+import random
 plt.rcParams['figure.figsize'] = (16, 9)
 plt.style.use('ggplot')
 
 # Importing the dataset
-data = pd.read_csv('xclara.csv')
-print(data)
-data1 = pd.read_csv('relative_contributions.csv')
-#print("Input Data and Shape")
-#print(data.shape)
-print('OUR DATA SHAPE', data1.shape)
-#data.head()
-# print('data.head', data1.head())
-# print('data columns! learning pandas', data1.columns)
-# print('data rbreakdown', data1['LeftStim'][1])
-# print('data rbreakdown', data1['LeftStim'][0])
+data = pd.read_csv('relative_contributions.csv')
+print('OUR DATA SHAPE', data.shape)
 data.head()
 
 # Getting the values and plotting it
-f1 = data['V1'].values
-# print(f1, 'these data values!')
-leftstim = data1['LeftStim'].values
-rightstim = data1['RightStim'].values
-f2 = data['V2'].values
-#X = np.array(list(zip(f1, f2)))
+leftstim = data['LeftStim'].values
+rightstim = data['RightStim'].values
 X = np.array(list(zip(leftstim, rightstim)))
-# plt.scatter(f1, f2, c='black', s=7)
+
 plt.scatter(leftstim, rightstim, c='black', s=7)
 plt.title("Left and Right Stimulus")
 plt.xlabel("Left Stimulus")
 plt.ylabel("Right Stimulus")
-plt.show()
 
 # Euclidean Distance Calculator
 def dist(a, b, ax=1):
     return np.linalg.norm(a - b, axis=ax)
 
 # Number of clusters
-k = 3
-# X coordinates of random centroids
-C_x = np.random.randint(0, np.max(X)-20, size=k)
-# Y coordinates of random centroids
-C_y = np.random.randint(0, np.max(X)-20, size=k)
-C = np.array(list(zip(C_x, C_y)), dtype=np.float32)
-print("Initial Centroids")
-print(C)
+k = 4
+C_x = np.random.random_sample(k)
+C_y = np.random.random_sample(k)
+C = np.array(list(zip(C_x, C_y)), dtype=np.float32 )
+print("Initial Centroids", C)
 
 # Plotting along with the Centroids
-#plt.scatter(f1, f2, c='#050505', s=7)
 plt.scatter(leftstim, rightstim, c='#050505', s=7)
 plt.scatter(C_x, C_y, marker='*', s=200, c='g')
 
@@ -80,7 +63,6 @@ for i in range(k):
         points = np.array([X[j] for j in range(len(X)) if clusters[j] == i])
         ax.scatter(points[:, 0], points[:, 1], s=7, c=colors[i])
 ax.scatter(C[:, 0], C[:, 1], marker='*', s=200, c='#050505')
-
 
 
 '''
