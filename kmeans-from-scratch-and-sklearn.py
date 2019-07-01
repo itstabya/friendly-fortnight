@@ -7,17 +7,34 @@ plt.style.use('ggplot')
 
 # Importing the dataset
 data = pd.read_csv('xclara.csv')
-print("Input Data and Shape")
-print(data.shape)
+print(data)
+data1 = pd.read_csv('relative_contributions.csv')
+#print("Input Data and Shape")
+#print(data.shape)
+print('OUR DATA SHAPE', data1.shape)
+#data.head()
+# print('data.head', data1.head())
+# print('data columns! learning pandas', data1.columns)
+# print('data rbreakdown', data1['LeftStim'][1])
+# print('data rbreakdown', data1['LeftStim'][0])
 data.head()
 
 # Getting the values and plotting it
 f1 = data['V1'].values
+# print(f1, 'these data values!')
+leftstim = data1['LeftStim'].values
+rightstim = data1['RightStim'].values
 f2 = data['V2'].values
-X = np.array(list(zip(f1, f2)))
-plt.scatter(f1, f2, c='black', s=7)
+#X = np.array(list(zip(f1, f2)))
+X = np.array(list(zip(leftstim, rightstim)))
+# plt.scatter(f1, f2, c='black', s=7)
+plt.scatter(leftstim, rightstim, c='black', s=7)
+plt.title("Left and Right Stimulus")
+plt.xlabel("Left Stimulus")
+plt.ylabel("Right Stimulus")
+plt.show()
 
-# Euclidean Distance Caculator
+# Euclidean Distance Calculator
 def dist(a, b, ax=1):
     return np.linalg.norm(a - b, axis=ax)
 
@@ -32,7 +49,8 @@ print("Initial Centroids")
 print(C)
 
 # Plotting along with the Centroids
-plt.scatter(f1, f2, c='#050505', s=7)
+#plt.scatter(f1, f2, c='#050505', s=7)
+plt.scatter(leftstim, rightstim, c='#050505', s=7)
 plt.scatter(C_x, C_y, marker='*', s=200, c='g')
 
 # To store the value of centroids when it updates
@@ -88,3 +106,4 @@ print("Scratch")
 print(C) # From Scratch
 print("sklearn")
 print(centroids) # From sci-kit learn
+plt.show()
