@@ -1,3 +1,13 @@
+""" 
+referred to this link: https://jakevdp.github.io/PythonDataScienceHandbook/05.11-k-means.html
+reinforce with this later please: https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html
+
+things to better understand
+- kmeans++
+- random.seed()
+"""
+
+
 from copy import deepcopy
 import numpy as np
 import pandas as pd
@@ -5,11 +15,11 @@ from matplotlib import pyplot as plt
 import random
 import math
 plt.rcParams['figure.figsize'] = (16, 9)
-plt.style.use('ggplot')
+plt.style.use('seaborn')
 
 # Importing the dataset
 data = pd.read_csv('relative_contributions.csv')
-data.head()
+#data.head()
 
 # Getting the values and plotting it
 leftstim = data['LeftStim'].values
@@ -24,31 +34,19 @@ plt.title("Relative Contributions from Left and Right Stimulus")
 plt.xlabel("Left Stimulus")
 plt.ylabel("Right Stimulus")
 
-
-
-'''
-==========================================================
-scikit-learn
-==========================================================
-'''
-
 from sklearn.cluster import KMeans
 
-# Number of clusters
-k = 5
+k = 5 #number of clusters
 kmeans = KMeans(n_clusters=k)
+
 # Fitting the input data
 kmeans = kmeans.fit(X)
-# Getting the cluster labels
 labels = kmeans.predict(X)
 
 plt.scatter(X[:, 0], X[:, 1], c=labels, s=50, cmap='viridis')
 
-# Centroid values
-centroids = kmeans.cluster_centers_
+centroids = kmeans.cluster_centers_ #centroid values
 #plotting the centers
 plt.scatter(centroids[:, 0], centroids[:, 1], c='black', s=200, alpha = 0.5)
-
-# Comparing with scikit-learn centroids
-print("Centroids", centroids) # From sci-kit learn
+#print("Centroids", centroids) 
 plt.show()
